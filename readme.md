@@ -13,4 +13,3 @@
 2. Подключена библиотека sqlite3.
 
 ![alt text](image-1.png)
-
