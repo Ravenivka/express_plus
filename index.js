@@ -21,8 +21,11 @@ app.use(express.json());
 
 app.get('/users' , (req, res) => {
     database.all("SELECT * FROM users", [], (err, rows) => {    
-        //console.log(rows);
-        res.send({rows});
+        if (rows.length == 0){
+            res.send('Not found');
+        } else {
+            res.send({rows});
+        }
     })    
     
 });
@@ -73,7 +76,8 @@ app.put('/users/:id', (req, res) => {
     //console.log(values); 
     database.run(sql, values, (err) => {
         if (err) {
-            return console.log(err)
+            console.log(err);
+            return res.status(400).send({error: err.details});
         } else {
             res.send('success');  
         }
@@ -90,7 +94,8 @@ app.delete('/users/:id' , (req, res) => {
 
     database.run(sql, [req.params.id], (err) => {
         if (err) {
-            return console.log(err)
+            console.log(err);
+            return res.status(400).send({error: err.details});
         } else {
             res.send('success');  
         }
